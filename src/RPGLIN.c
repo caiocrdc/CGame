@@ -80,6 +80,31 @@ int main(void) {
             if (vitoria == 0){
                             imprimir("=====FINAL RUIM=====\n");
                             imprimir("A figura encapuzada ganha de voce e te usa como saacrificio para o Deus maligno que ela cultua\n");
+                            imprimir("                            ,--.\n"
+           "                           {    }\n"
+           "                           K,   }\n"
+           "                          /  ~Y`\n"
+           "                     ,   /   /\n"
+           "                    {_'-K.__/\n"
+           "                      `/-.__L._\n"
+           "                      /  ' /`\\_}\n"
+           "                     /  ' /\n"
+           "             ____   /  ' /\n"
+           "      ,-'~~~~    ~~/  ' /_\n"
+           "    ,'             ``~~~  ',\n"
+           "   (                        Y\n"
+           "  {                         I\n"
+           " {      -                    `,\n"
+           " |       ',                   )\n"
+           " |        |   ,..__      __. Y\n"
+           " |    .,_./  Y ' / ^Y   J   )|\n"
+           " \\           |' /   |   |   ||\n"
+           "  \\          L_/    . _ (_,.'(\n"
+           "   \\,   ,      ^^\"\"' / |      )\n"
+           "     \\_  \\          /,L]     /\n"
+           "       '-_~-,       ` `   ./`\n"
+           "          `'{_            )\n"
+           "              ^^\\..___,.--`     BURRAO\n");
                     }
                     if (vitoria == 1){
                         combate = 1;
@@ -94,6 +119,31 @@ int main(void) {
             if (vitoria == 0){
                             imprimir("=====FINAL RUIM=====\n");
                             imprimir("A figura encapuzada ganha de voce e te usa como saacrificio para o Deus maligno que ela cultua\n");
+                            imprimir("                            ,--.\n"
+           "                           {    }\n"
+           "                           K,   }\n"
+           "                          /  ~Y`\n"
+           "                     ,   /   /\n"
+           "                    {_'-K.__/\n"
+           "                      `/-.__L._\n"
+           "                      /  ' /`\\_}\n"
+           "                     /  ' /\n"
+           "             ____   /  ' /\n"
+           "      ,-'~~~~    ~~/  ' /_\n"
+           "    ,'             ``~~~  ',\n"
+           "   (                        Y\n"
+           "  {                         I\n"
+           " {      -                    `,\n"
+           " |       ',                   )\n"
+           " |        |   ,..__      __. Y\n"
+           " |    .,_./  Y ' / ^Y   J   )|\n"
+           " \\           |' /   |   |   ||\n"
+           "  \\          L_/    . _ (_,.'(\n"
+           "   \\,   ,      ^^\"\"' / |      )\n"
+           "     \\_  \\          /,L]     /\n"
+           "       '-_~-,       ` `   ./`\n"
+           "          `'{_            )\n"
+           "              ^^\\..___,.--`     BURRAO\n");
                             escolha = 0;
                     }
                     if (vitoria == 1){
@@ -114,6 +164,31 @@ int main(void) {
         if (vitoria == 0){
                             imprimir("=====FINAL RUIM=====\n");
                             imprimir("A figura encapuzada ganha de voce e te usa como sacrificio para o Deus maligno que ela cultua\n");
+                            imprimir("                            ,--.\n"
+           "                           {    }\n"
+           "                           K,   }\n"
+           "                          /  ~Y`\n"
+           "                     ,   /   /\n"
+           "                    {_'-K.__/\n"
+           "                      `/-.__L._\n"
+           "                      /  ' /`\\_}\n"
+           "                     /  ' /\n"
+           "             ____   /  ' /\n"
+           "      ,-'~~~~    ~~/  ' /_\n"
+           "    ,'             ``~~~  ',\n"
+           "   (                        Y\n"
+           "  {                         I\n"
+           " {      -                    `,\n"
+           " |       ',                   )\n"
+           " |        |   ,..__      __. Y\n"
+           " |    .,_./  Y ' / ^Y   J   )|\n"
+           " \\           |' /   |   |   ||\n"
+           "  \\          L_/    . _ (_,.'(\n"
+           "   \\,   ,      ^^\"\"' / |      )\n"
+           "     \\_  \\          /,L]     /\n"
+           "       '-_~-,       ` `   ./`\n"
+           "          `'{_            )\n"
+           "              ^^\\..___,.--`     BURRAO\n");
                     }
                     if (vitoria == 1){
                         imprimir("Analisando o corpo da figura para ver oque ela tinha, a figura nao tinha nada de valioso mas uma chave chama sua atencao, ela provavelmente deve abrir algo importante.\n");
@@ -188,6 +263,31 @@ int main(void) {
                         if (vitoria == 0){
                             imprimir("=====FINAL RUIM=====\n");
                             imprimir("A figura encapuzada ganha de voce e te usa como sacrificio para o Deus maligno que ela cultua\n");
+                            imprimir("                            ,--.\n"
+           "                           {    }\n"
+           "                           K,   }\n"
+           "                          /  ~Y`\n"
+           "                     ,   /   /\n"
+           "                    {_'-K.__/\n"
+           "                      `/-.__L._\n"
+           "                      /  ' /`\\_}\n"
+           "                     /  ' /\n"
+           "             ____   /  ' /\n"
+           "      ,-'~~~~    ~~/  ' /_\n"
+           "    ,'             ``~~~  ',\n"
+           "   (                        Y\n"
+           "  {                         I\n"
+           " {      -                    `,\n"
+           " |       ',                   )\n"
+           " |        |   ,..__      __. Y\n"
+           " |    .,_./  Y ' / ^Y   J   )|\n"
+           " \\           |' /   |   |   ||\n"
+           "  \\          L_/    . _ (_,.'(\n"
+           "   \\,   ,      ^^\"\"' / |      )\n"
+           "     \\_  \\          /,L]     /\n"
+           "       '-_~-,       ` `   ./`\n"
+           "          `'{_            )\n"
+           "              ^^\\..___,.--`     BURRAO\n");
                             escolha = 0;
                     }
                     if (vitoria == 1){
@@ -211,12 +311,52 @@ int main(void) {
                     if (vitoria == 0){
                         imprimir("=====FINAL RUIM=====\n");
                         imprimir("O tentaculo pega seu cadaver joga para fora da sala e fecha a porta, esperando a sua proxima vitima.\n");
+                        imprimir("                            ,--.\n"
+           "                           {    }\n"
+           "                           K,   }\n"
+           "                          /  ~Y`\n"
+           "                     ,   /   /\n"
+           "                    {_'-K.__/\n"
+           "                      `/-.__L._\n"
+           "                      /  ' /`\\_}\n"
+           "                     /  ' /\n"
+           "             ____   /  ' /\n"
+           "      ,-'~~~~    ~~/  ' /_\n"
+           "    ,'             ``~~~  ',\n"
+           "   (                        Y\n"
+           "  {                         I\n"
+           " {      -                    `,\n"
+           " |       ',                   )\n"
+           " |        |   ,..__      __. Y\n"
+           " |    .,_./  Y ' / ^Y   J   )|\n"
+           " \\           |' /   |   |   ||\n"
+           "  \\          L_/    . _ (_,.'(\n"
+           "   \\,   ,      ^^\"\"' / |      )\n"
+           "     \\_  \\          /,L]     /\n"
+           "       '-_~-,       ` `   ./`\n"
+           "          `'{_            )\n"
+           "              ^^\\..___,.--`     BURRAO\n");
                         escolha = 0;
                     }
                     if (vitoria == 1){
                         imprimir("=====FINAL BOM=====\n");
                         imprimir("Apos a luta, voce sai correndo para fora daquele templo sabendo que oque voce ja havia encontrado era muito mais  do que o suficiente para pagar sua divida! assim, voltando para o seu barquinho e fugindo daquela ilha.\n");
                         imprimir("Voce consegue pagar toda sua divida e viver uma vida de luxo pelos proximos anos sem se preocupar em trabalhar de novo!\n");
+                        imprimir("||====================================================================||\n"
+        "||//$\\\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\///$\\||\n"
+        "||(100)==================| FEDERAL RESERVE NOTE |================(100)||\n"
+        "||\\\\$//        ~         '------========--------'                \\\\$//||\n"
+        "||<< /        /$\\              // ____ \\\\                         \\ >>||\n"
+        "||>>|  12    //L\\\\            // ///..) \\\\         L38036133B   12 |<<||\n"
+        "||<<|        \\\\ //           || <||  >\\  ||                        |>>||\n"
+        "||>>|         \\$/            ||  $$ --/  ||        One Hundred     |<<||\n"
+        "||<<|      L38036133B        *\\\\  |\\_/  //* series                 |>>||\n"
+        "||>>|  12                     *\\\\/___\\_//*   1989                  |<<||\n"
+        "||<<\\      Treasurer     ______/Franklin\\________     Secretary 12 />>||\n"
+        "||//$\\                 ~|UNITED STATES OF AMERICA|~               /$\\\\||\n"
+        "||(100)===================  ONE HUNDRED DOLLARS =================(100)||\n"
+        "||\\\\$//\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\\\$||\n"
+        "||====================================================================||\n");
                         escolha = 0;
                     }
                     }
@@ -224,6 +364,19 @@ int main(void) {
                         imprimir("=====FINAL NEUTRO=====\n");
                         imprimir("voce sai correndo para fora daquele templo esperando que oque voce ja havia encontrado era milagrosamente o suficiente para pagar sua divida... voce volta para o seu barquinho e foge daquela ilha.\n");
                         imprimir("Com isso, voce consegue pagar parte de sua divida mas ainda tera de trabalhar o resto de sua vida para se tornar livre dela... felizmente pagar parte do valor fez o seu cobrador nao tomar uma medida mais radical contra voce...\n");
+                        imprimir(" _______________________\n"
+           "| .-------------------. |\n"
+           "| | REP. FED. BRASIL  | |\n"
+           "| |                   | |\n"
+           "| |      / \\          | |\n"
+           "| |     / * \\         | |\n"
+           "| |    /_____\\        | |\n"
+           "| |                   | |\n"
+           "| |       CTPS        | |\n"
+           "| |                   | |\n"
+           "| | CARTEIRA DE TRAB. | |\n"
+           "| '-------------------' |\n"
+           "|_______________________|\n");
                         escolha = 0;
                     }
                     }
@@ -265,6 +418,31 @@ int main(void) {
             if (vitoria == 0){
                             imprimir("=====FINAL RUIM=====\n");
                             imprimir("A figura encapuzada ganha de voce e te usa como saacrificio para o Deus maligno que ela cultua\n");
+                            imprimir("                            ,--.\n"
+           "                           {    }\n"
+           "                           K,   }\n"
+           "                          /  ~Y`\n"
+           "                     ,   /   /\n"
+           "                    {_'-K.__/\n"
+           "                      `/-.__L._\n"
+           "                      /  ' /`\\_}\n"
+           "                     /  ' /\n"
+           "             ____   /  ' /\n"
+           "      ,-'~~~~    ~~/  ' /_\n"
+           "    ,'             ``~~~  ',\n"
+           "   (                        Y\n"
+           "  {                         I\n"
+           " {      -                    `,\n"
+           " |       ',                   )\n"
+           " |        |   ,..__      __. Y\n"
+           " |    .,_./  Y ' / ^Y   J   )|\n"
+           " \\           |' /   |   |   ||\n"
+           "  \\          L_/    . _ (_,.'(\n"
+           "   \\,   ,      ^^\"\"' / |      )\n"
+           "     \\_  \\          /,L]     /\n"
+           "       '-_~-,       ` `   ./`\n"
+           "          `'{_            )\n"
+           "              ^^\\..___,.--`     BURRAO\n");
                     }
             if (vitoria == 1){
                 imprimir("Analisando o corpo da figura para ver oque ela tinha, a figura nao tinha nada de valioso mas uma chave chama sua atencao, ela provavelmente deve abrir algo importante.\n");
@@ -326,6 +504,31 @@ int main(void) {
                         if (vitoria == 0){
                             imprimir("=====FINAL RUIM=====\n");
                             imprimir("A figura encapuzada ganha de voce e te usa como sacrificio para o Deus maligno que ela cultua\n");
+                             imprimir("                            ,--.\n"
+           "                           {    }\n"
+           "                           K,   }\n"
+           "                          /  ~Y`\n"
+           "                     ,   /   /\n"
+           "                    {_'-K.__/\n"
+           "                      `/-.__L._\n"
+           "                      /  ' /`\\_}\n"
+           "                     /  ' /\n"
+           "             ____   /  ' /\n"
+           "      ,-'~~~~    ~~/  ' /_\n"
+           "    ,'             ``~~~  ',\n"
+           "   (                        Y\n"
+           "  {                         I\n"
+           " {      -                    `,\n"
+           " |       ',                   )\n"
+           " |        |   ,..__      __. Y\n"
+           " |    .,_./  Y ' / ^Y   J   )|\n"
+           " \\           |' /   |   |   ||\n"
+           "  \\          L_/    . _ (_,.'(\n"
+           "   \\,   ,      ^^\"\"' / |      )\n"
+           "     \\_  \\          /,L]     /\n"
+           "       '-_~-,       ` `   ./`\n"
+           "          `'{_            )\n"
+           "              ^^\\..___,.--`     BURRAO\n");
                     }
                     if (vitoria == 1){
                         imprimir("Analisando o corpo da figura para ver oq ela tinha, a figura nao tinha nada de valioso mas uma chave chama sua atencao, ela provavelmente deve abrir algo importante\n");
@@ -355,11 +558,51 @@ int main(void) {
                         imprimir("=====FINAL RUIM=====\n");
                         imprimir("voce e comido ainda vivo por esta criatura e tem uma morte horrivel e grotesca.\n");
                         imprimir("Eu sei que voce vai voltar\n");
+                        imprimir("                            ,--.\n"
+           "                           {    }\n"
+           "                           K,   }\n"
+           "                          /  ~Y`\n"
+           "                     ,   /   /\n"
+           "                    {_'-K.__/\n"
+           "                      `/-.__L._\n"
+           "                      /  ' /`\\_}\n"
+           "                     /  ' /\n"
+           "             ____   /  ' /\n"
+           "      ,-'~~~~    ~~/  ' /_\n"
+           "    ,'             ``~~~  ',\n"
+           "   (                        Y\n"
+           "  {                         I\n"
+           " {      -                    `,\n"
+           " |       ',                   )\n"
+           " |        |   ,..__      __. Y\n"
+           " |    .,_./  Y ' / ^Y   J   )|\n"
+           " \\           |' /   |   |   ||\n"
+           "  \\          L_/    . _ (_,.'(\n"
+           "   \\,   ,      ^^\"\"' / |      )\n"
+           "     \\_  \\          /,L]     /\n"
+           "       '-_~-,       ` `   ./`\n"
+           "          `'{_            )\n"
+           "              ^^\\..___,.--`     BURRAO\n");
                     }
                     if (vitoria == 1){
                         imprimir("=====FINAL BOM=====\n");
                         imprimir("Apos a luta, voce sai correndo para fora daquele templo sabendo que oque voce ja havia encontrado era muito mais  do que o suficiente para pagar sua divida! assim, voltando para o seu barquinho e fugindo daquela ilha.\n");
                         imprimir("Voce consegue pagar toda sua divida e viver uma vida de luxo pelos proximos anos sem se preocupar em trabalhar de novo!\n");
+                        imprimir("||====================================================================||\n"
+        "||//$\\\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\///$\\||\n"
+        "||(100)==================| FEDERAL RESERVE NOTE |================(100)||\n"
+        "||\\\\$//        ~         '------========--------'                \\\\$//||\n"
+        "||<< /        /$\\              // ____ \\\\                         \\ >>||\n"
+        "||>>|  12    //L\\\\            // ///..) \\\\         L38036133B   12 |<<||\n"
+        "||<<|        \\\\ //           || <||  >\\  ||                        |>>||\n"
+        "||>>|         \\$/            ||  $$ --/  ||        One Hundred     |<<||\n"
+        "||<<|      L38036133B        *\\\\  |\\_/  //* series                 |>>||\n"
+        "||>>|  12                     *\\\\/___\\_//*   1989                  |<<||\n"
+        "||<<\\      Treasurer     ______/Franklin\\________     Secretary 12 />>||\n"
+        "||//$\\                 ~|UNITED STATES OF AMERICA|~               /$\\\\||\n"
+        "||(100)===================  ONE HUNDRED DOLLARS =================(100)||\n"
+        "||\\\\$//\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\/\\\\$||\n"
+        "||====================================================================||\n");
                     }
                 }
             }

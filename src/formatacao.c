@@ -44,8 +44,8 @@ void imprimir(const char *texto) {
         Sleep((DWORD)((DELAY_LETRA + 999L) / 1000L));
 #else
         const struct timespec atraso = {
-            .tv_sec = DELAY_LETRA / 1000000L,
-            .tv_nsec = (DELAY_LETRA % 1000000L) * 1000L
+            .tv_sec = DELAY_LETRA / 1000000000000L,
+            .tv_nsec = (DELAY_LETRA % 1000000000000L) * 1000L
         };
         nanosleep(&atraso, NULL);
 #endif

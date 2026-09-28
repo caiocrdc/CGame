@@ -5,7 +5,7 @@
 #include "estado.h"
 #include "formatacao.h"
 #include "geral.h"
-
+#include<locale.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
