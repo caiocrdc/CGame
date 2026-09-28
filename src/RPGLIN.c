@@ -1,6 +1,10 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
+#include "combate.h"
+#include "estado.h"
+#include "formatacao.h"
+#include "geral.h"
 
 // objeto de escolha
 int escolha = 0;
@@ -13,116 +17,22 @@ int colar_hp = 0;
 int ataduras = 0;
 int municao = 0;
 int pistola = 0;
+int anel = 0;
+int cetro = 0;
 
-int sangramento = 0; // status de sangramento toma 5 de dano por escolha em combate
-int combate = 0; // Contador de combates
-int vitoria = 1; // Vitoria = 1 Derrota = 0, usar como verificador apos combate
-int hp_jogador = 40; // Vida base do explorador
-char nome_jogador[50]; // Guarda o nome do personagem
+int sangramento = 0;
+int combate = 0;
+int vitoria = 1;
+int hp_maximo = 40;
+int hp_jogador = 40;
+int pontuacao = 0;
+char nome_jogador[50];
 
-void imprimir(char *str) {
-    for (int i = 0; i < strlen(str); i++) {
-        printf("%c", str[i]);
-        fflush(stdout);
-        usleep(3500);
-    }
-}
-
-// === FUNÇÃO DE COMBATE ===
-int func_combate(char* nome_inimigo, int hp_inimigo, int dano_inimigo) {
-    imprimir("\n==================================\n");
-    imprimir("        COMBATE INICIADO!         \n");
-    printf("Inimigo: %s | HP: %d | Dano: %d\n", nome_inimigo, hp_inimigo, dano_inimigo);
-    imprimir("==================================\n");
-
-    // Bônus de HP máximo se tiver o colar
-    int hp_maximo = (colar_hp == 1) ? 60 : 40; 
-    
-    // Bônus de dano se tiver o colar de força
-    int bonus_dano = (colar_forca == 1) ? 3 : 0; 
-
-    // Atualiza a vida máxima do jogador no momento da batalha caso tenha pegado o colar
-    if (colar_hp == 1 && hp_jogador == 40) hp_jogador = 60;
-
-    // Loop de combate (enquanto os dois estiverem vivos)
-    while (hp_jogador > 0 && hp_inimigo > 0) {
-        
-        // Efeito de Sangramento
-        if (sangramento == 1) {
-            imprimir("\n[STATUS] Voce esta sangrando! Perdeu 5 de HP.\n");
-            hp_jogador -= 5;
-            if (hp_jogador <= 0) break; // Morreu de sangramento
-        }
-
-        printf("\nSeu HP: %d/%d | HP Inimigo: %d\n", hp_jogador, hp_maximo, hp_inimigo);
-        printf("Sua vez, %s. Escolha uma acao:\n", nome_jogador); // Usa o nome no combate!
-        imprimir("1 - Atacar\n");
-        imprimir("2 - Usar Atadura (Cura 15 HP e para o sangramento)\n");
-        scanf("%d", &escolha);
-
-        // --- TURNO DO JOGADOR ---
-        if (escolha == 1) { // ATACAR
-            int dano_causado = 2 + bonus_dano; // Soco (Dano base 2)
-            
-            imprimir("Com qual arma?\n");
-            printf("1 - Soco (Dano: %d)\n", dano_causado);
-            if (facao == 1) printf("2 - Facao (Dano: %d)\n", 6 + bonus_dano);
-            if (pistola == 1) printf("3 - Pistola (Dano: %d | Municao: %d)\n", 10 + bonus_dano, municao);
-            
-            int arma;
-            scanf("%d", &arma);
-
-            if (arma == 2 && facao == 1) {
-                dano_causado = 6 + bonus_dano;
-            } else if (arma == 3 && pistola == 1) {
-                if (municao > 0) {
-                    dano_causado = 10 + bonus_dano;
-                    municao--;
-                } else {
-                    imprimir("A arma apenas faz um barulho de *click*. Sem municao! Voce deu um soco de desespero.\n");
-                }
-            }
-            
-            printf("\n> Voce atacou causando %d de dano!\n", dano_causado);
-            hp_inimigo -= dano_causado;
-
-        } else if (escolha == 2) { // CURAR
-            if (ataduras > 0) {
-                imprimir("\n> Voce rapidamente enfaixou seus machucados! (+15 HP)\n");
-                ataduras--;
-                hp_jogador += 15;
-                sangramento = 0; // Para de sangrar
-                if (hp_jogador > hp_maximo) hp_jogador = hp_maximo; // Não deixa passar do HP máximo
-            } else {
-                imprimir("\n> Voce procura na bolsa, mas nao tem ataduras! Voce perdeu seu turno...\n");
-            }
-        } else {
-            imprimir("\n> Opcao invalida! Na confusao da batalha, voce tropecou e perdeu o turno.\n");
-        }
-
-        // --- TURNO DO INIMIGO ---
-        if (hp_inimigo > 0) {
-            printf("> O %s te ataca, causando %d de dano!\n", nome_inimigo, dano_inimigo);
-            hp_jogador -= dano_inimigo;
-        }
-    }
-
-    // --- RESULTADO DO COMBATE ---
-    if (hp_jogador <= 0) {
-        imprimir("\nSua visao escurece e voce cai no chao...\n");
-        return 0; // Retorna derrota
-    } else {
-        printf("\nO %s cai sem vida! Voce sobreviveu.\n", nome_inimigo);
-        return 1; // Retorna vitória
-    }
-}
-// =========================
-
-int main() {
+int main(void) {
     
     // Pergunta o nome do jogador logo de cara
     imprimir("Digite o nome do seu explorador (sem espacos): ");
-    scanf("%s", nome_jogador);
+    scanf("%49s", nome_jogador);
 
     // Cria a variável para montar a história com o nome
     char texto_inicial[1000];
