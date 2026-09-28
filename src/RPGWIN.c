@@ -123,10 +123,7 @@ int escolher_caminho(void) {
 
     mudar_cor(14);
     imprimir("\nUtilizando aquele pequeno barco barato que voce havia comprado, voce consegue chegar a ilha. Voce caminha ate encontrar uma bifurcacao na estrada. Ambos os caminhos parecem que vao te levar ao mesmo lugar. Qual caminho voce ira escolher?\n");
-    mudar_cor(15);
-    imprimir("1 - Direita\n");
-    imprimir("2 - Esquerda\n");
-    escolha = ler_opcao(1, 2);
+    escolha = escolher_menu(2, "Direita", "Esquerda");
 
     // O caminho da esquerda so leva ao destino na terceira tentativa
     while (escolha == 2 && tentativas < 2) {
@@ -136,10 +133,7 @@ int escolher_caminho(void) {
         } else {
             imprimir("Apos seguir pelo caminho do lado esquerdo por mais tempo ainda, voce percebe que retornou novamente para a mesma bifurcacao pela qual ja havia passado.\n");
         }
-        mudar_cor(15);
-        imprimir("1 - Ir para a Direita\n");
-        imprimir("2 - Continuar indo para a Esquerda\n");
-        escolha = ler_opcao(1, 2);
+        escolha = escolher_menu(2, "Ir para a Direita", "Continuar indo para a Esquerda");
         tentativas++;
     }
     return escolha;
@@ -148,16 +142,11 @@ int escolher_caminho(void) {
 // Grande salao com o altar (igual nos dois caminhos). Retorna 1 se o jogador continua vivo
 int salao_do_altar(const char *intro) {
     int escolha;
-    int opcao_max = 1;
-    char buffer[100];
 
     mudar_cor(14);
     imprimir(intro);
     imprimir("o local nao estava muito escuro, uma vez que a luz da lua o iluminava. Com isso, era possivel ver algo similar ao interior de uma igreja com diversos assentos e um altar. Entretanto, havia cabecas humanoides com barbas em formato de tentaculos esculpidas nos pilares do lugar.\n");
-    mudar_cor(15);
-    imprimir("1 - Procurar algo no altar\n");
-    imprimir("2 - Procurar nos cantos da sala\n");
-    escolha = ler_opcao(1, 2);
+    escolha = escolher_menu(2, "Procurar algo no altar", "Procurar nos cantos da sala");
 
     if (escolha == 2) {
         mudar_cor(14);
@@ -176,20 +165,21 @@ int salao_do_altar(const char *intro) {
     cetro = 1;
     pontuacao += 200;
 
-    // Menu dinamico: so aparecem as opcoes que o jogador consegue usar
-    mudar_cor(15);
-    imprimir("1 - Sair da sala com as coisas que voce encontrou e testar a chave na porta com diversos ornamentos.\n");
+    const char *opcoes[3] = {
+        "Sair da sala e testar a chave na porta com diversos ornamentos",
+        NULL,
+        NULL
+    };
+    char opcao_facao[] = "Tentar abrir a caixa usando o facao";
+    char opcao_chave[] = "Utilizar a Chave Simples";
+    int quantidade_opcoes = 1;
     if (facao == 1) {
-        opcao_max++;
-        sprintf(buffer, "%d - Tentar abrir a caixa usando o facao.\n", opcao_max);
-        imprimir(buffer);
+        opcoes[quantidade_opcoes++] = opcao_facao;
     }
     if (chave_simples == 1) {
-        opcao_max++;
-        sprintf(buffer, "%d - Utilizar a Chave Simples.\n", opcao_max);
-        imprimir(buffer);
+        opcoes[quantidade_opcoes++] = opcao_chave;
     }
-    escolha = ler_opcao(1, opcao_max);
+    escolha = selecionar_opcao(quantidade_opcoes, opcoes);
 
     if (escolha != 1) { // abriu a caixa
         mudar_cor(14);
@@ -226,11 +216,7 @@ void porta_esquerda(void) {
     imprimir("tentaculo");
     mudar_cor(14);
     imprimir(" maior que um homem... Por mais assustador que seja, para poder quitar sua divida, aquele diamante gigante certamente sera necessario...\n");
-    mudar_cor(15);
-    
-    imprimir("1 - Entrar na sala\n");
-    imprimir("2 - Fugir deste templo macabro\n");
-    escolha = ler_opcao(1, 2);
+    escolha = escolher_menu(2, "Entrar na sala", "Fugir deste templo macabro");
 
     switch (escolha) {
         case 1:
@@ -263,10 +249,6 @@ void porta_direita(void) {
     imprimir("figura encapuzada");
     mudar_cor(14);
     imprimir(" ajoelhada na frente do altar.\n");
-    mudar_cor(15);
-    
-    imprimir("1 - Ataca----!??... opcao do jogador interrompida-\n");
-
     mudar_cor(14);
     sprintf(texto_boss, "Por algum motivo, aquela figura comeca a rir... Segundos depois, o pescoco da figura vira para que o olhar dela encontre o seu. Voce, %s, fica paralisado de medo e essa ", nome_jogador);
     imprimir(texto_boss);
@@ -296,13 +278,9 @@ void caminho_esquerdo(void) {
 
     mudar_cor(14);
     imprimir("\nApos mais algumas horas caminhando pelo caminho esquerdo, voce finalmente encontra um buraco na parte de tras de uma estrutura. O interior do local esta muito escuro e voce pode escutar pessoas falando uma lingua estranha la dentro.\n");
-    mudar_cor(15);
-    imprimir("1 - Se aproximar para tentar enxergar melhor\n");
-    imprimir("2 - Esperar o barulho parar\n");
-    if (lanterna == 1) {
-        imprimir("3 - Iluminar o local com sua lanterna\n");
-    }
-    escolha = ler_opcao(1, (lanterna == 1) ? 3 : 2);
+    escolha = lanterna == 1
+        ? escolher_menu(3, "Se aproximar para tentar enxergar melhor", "Esperar o barulho parar", "Iluminar o local com sua lanterna")
+        : escolher_menu(2, "Se aproximar para tentar enxergar melhor", "Esperar o barulho parar");
 
     switch (escolha) {
         case 1: // Se aproximar
@@ -313,10 +291,7 @@ void caminho_esquerdo(void) {
             mudar_cor(14);
             imprimir(" escutou o som, veio na sua direcao e te encontrou...\n");
             
-            mudar_cor(15);
-            imprimir("1 - Atacar.\n");
-            imprimir("2 - Tentar conversar com a figura.\n");
-            escolha = ler_opcao(1, 2);
+            escolha = escolher_menu(2, "Atacar", "Tentar conversar com a figura");
             if (escolha == 2) {
                 mudar_cor(14);
                 imprimir("A figura te esfaqueia, e agora voce esta sangrando.\n");
@@ -349,19 +324,14 @@ void caminho_esquerdo(void) {
 
     mudar_cor(14);
     imprimir("\nVoce entra nesta estrutura e decide analisar o interior dela em busca de algo para pagar sua divida, claro... encontrando assim 2 barras de ouro. Observando outros detalhes do local, e possivel ver que as paredes estao infestadas de vinhas, o chao tem um pouco de musgo e o que aparentam ser pegadas indo na direcao de uma sala um pouco mais iluminada. Entretanto, voce tambem encontra 2 outros possiveis caminhos: ambos sao portas, 1 porta com diversos ornamentos trancada com uma fechadura verde e a outra que esta levemente aberta.\n");
-    mudar_cor(15);
     pontuacao += 200;
-    imprimir("1 - Seguir as pegadas.\n");
-    imprimir("2 - Entrar na porta levemente aberta\n");
-    escolha = ler_opcao(1, 2);
+    escolha = escolher_menu(2, "Seguir as pegadas", "Entrar na porta levemente aberta");
 
     if (escolha == 1) { // Seguir as pegadas
         if (combate == 0) {
             mudar_cor(14);
             imprimir("Voce e cauteloso e segue as pegadas silenciosamente. Ao entrar na sala iluminada, e possivel visualizar uma figura de costas fazendo alguma coisa em cima de algo que parecia ser um altar.\n");
-            mudar_cor(15);
-            imprimir("1 - Atacar a figura por tras.\n");
-            ler_opcao(1, 1);
+            escolher_menu(1, "Atacar a figura por tras");
             mudar_cor(14);
             imprimir("Voce rapidamente neutraliza o ser encapuzado, evitando um combate.\n");
             combate = 1;
@@ -388,10 +358,7 @@ void caminho_direito(void) {
 
     mudar_cor(14);
     imprimir("\nSeguindo pela direita, voce encontra o que parece ser um templo antigo e que aparenta ter sido abandonado ha muito tempo...\n");
-    mudar_cor(15);
-    imprimir("1 - Analisar a entrada do templo.\n");
-    imprimir("2 - Entrar no templo.\n");
-    escolha = ler_opcao(1, 2);
+    escolha = escolher_menu(2, "Analisar a entrada do templo", "Entrar no templo");
 
     if (escolha == 1) {
         mudar_cor(14);
@@ -408,13 +375,9 @@ void caminho_direito(void) {
     // Entrando no templo
     mudar_cor(14);
     imprimir("\nEntrando no templo, voce se depara com diversos corredores escuros que se bifurcam em varios caminhos e levam a incontaveis salas. Apos andar por um tempo, algo chama sua atencao: dentro de uma das camaras, voce percebe algo brilhando, possivelmente mais barras de ouro.\n");
-    mudar_cor(15);
-    imprimir("1 - Ir diretamente na direcao do brilho.\n");
-    imprimir("2 - Nao arriscar e continuar explorando o templo.\n");
-    if (lanterna == 1) {
-        imprimir("3 - Utilizar sua lanterna para ver se existem armadilhas por perto.\n");
-    }
-    escolha = ler_opcao(1, (lanterna == 1) ? 3 : 2);
+    escolha = lanterna == 1
+        ? escolher_menu(3, "Ir diretamente na direcao do brilho", "Nao arriscar e continuar explorando o templo", "Utilizar sua lanterna para procurar armadilhas")
+        : escolher_menu(2, "Ir diretamente na direcao do brilho", "Nao arriscar e continuar explorando o templo");
 
     switch (escolha) {
         case 1:

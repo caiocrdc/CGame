@@ -22,9 +22,10 @@ int func_combate(const char *nome_inimigo, int hp_inimigo, int dano_inimigo) {
     printf("Inimigo: ");
     mudar_cor(12);
     printf("%s", nome_inimigo);
-    mudar_cor(14);
+    mudar_cor(15);
     printf(" | HP: %d | Dano: %d\n", hp_inimigo, dano_inimigo);
     imprimir("==================================\n");
+    mudar_cor(14);
 
     while (hp_jogador > 0 && hp_inimigo > 0) {
         if (sangramento) {
@@ -37,25 +38,26 @@ int func_combate(const char *nome_inimigo, int hp_inimigo, int dano_inimigo) {
 
         printf("\nSeu HP: %d/%d | HP Inimigo: %d\n", hp_jogador, hp_maximo, hp_inimigo);
         printf("Sua vez, %s. Escolha uma acao:\n", nome_jogador);
-        mudar_cor(15);
-        imprimir("1 - Atacar\n");
-        printf("2 - Usar Atadura (Cura 15 HP e para o sangramento) [%d restantes]\n", ataduras);
+        char opcao_atadura[100];
+        snprintf(opcao_atadura, sizeof(opcao_atadura), "Usar Atadura (Cura 15 HP e para o sangramento) [%d restantes]", ataduras);
 
-        switch (ler_opcao(1, 2)) {
+        switch (escolher_menu(2, "Atacar", opcao_atadura)) {
             case 1: {
                 int dano_causado = 2 + bonus_dano;
-                int max_arma = 1;
+                const char *opcoes_armas[3];
+                char opcao_facao[64];
+                char opcao_pistola[100];
+                int quantidade_armas = 0;
                 int arma;
 
-                mudar_cor(15);
-                imprimir("Com qual arma?\n");
-                printf("1 - Soco (Dano: %d)\n", 2 + bonus_dano);
-                if (facao) printf("%d - Facao (Dano: %d)\n", ++max_arma, 6 + bonus_dano);
+                snprintf(opcao_facao, sizeof(opcao_facao), "Facao (Dano: %d)", 6 + bonus_dano);
+                snprintf(opcao_pistola, sizeof(opcao_pistola), "Pistola (Dano: %d | Municao: %d)", 10 + bonus_dano, municao);
+                opcoes_armas[quantidade_armas++] = "Soco (Dano base 2)";
+                if (facao) opcoes_armas[quantidade_armas++] = opcao_facao;
                 if (pistola) {
-                    ++max_arma;
-                    printf("%d - Pistola (Dano: %d | Municao: %d)\n", max_arma, 10 + bonus_dano, municao);
+                    opcoes_armas[quantidade_armas++] = opcao_pistola;
                 }
-                arma = ler_opcao(1, max_arma);
+                arma = selecionar_opcao(quantidade_armas, opcoes_armas);
 
                 if (arma == 2 && facao) {
                     dano_causado = 6 + bonus_dano;
