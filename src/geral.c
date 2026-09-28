@@ -86,6 +86,7 @@ int ler_int(void) {
 int ler_opcao(int minimo, int maximo) {
     if (minimo > maximo) return minimo;
 
+    mudar_cor(15);
     if (terminal_interativo()) {
         int opcao = minimo;
         int tecla;
@@ -105,6 +106,7 @@ int ler_opcao(int minimo, int maximo) {
         }
         putchar('\n');
         limpar_terminal();
+        mudar_cor(14);
         return opcao;
     }
 
@@ -117,6 +119,7 @@ int ler_opcao(int minimo, int maximo) {
     } while (opcao < minimo || opcao > maximo);
 
     limpar_terminal();
+    mudar_cor(14);
     return opcao;
 }
 
@@ -159,12 +162,14 @@ void escolher_itens_iniciais(void) {
     int segundo;
     int quantidade = 0;
 
+    mudar_cor(15);
     for (int item = 1; item <= 4; item++) {
         texto_item(item);
     }
     primeiro = ler_opcao(1, 4);
     dar_item(primeiro);
 
+    mudar_cor(15);
     imprimir("\nAgora escolha o seu segundo item:\n");
     for (int item = 1; item <= 4; item++) {
         if (item != primeiro) {
@@ -180,6 +185,7 @@ void escolher_itens_iniciais(void) {
 void mostrar_inventario(void) {
     char buffer[100];
 
+    mudar_cor(14);
     imprimir("\nInventario:\n");
     if (facao) imprimir("Facao --> 6 de dano\n");
     if (pistola) {

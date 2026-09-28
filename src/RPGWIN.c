@@ -73,7 +73,7 @@ void final_bom(void) {
         imprimir("Apos a luta, voce sai correndo para fora daquele templo sabendo que o que ja havia encontrado era muito mais do que o suficiente para pagar sua divida! Assim, voce volta para o seu barquinho e foge daquela ilha.\n");
         imprimir("Voce consegue pagar toda a sua divida e viver uma vida de luxo pelos proximos anos sem se preocupar em trabalhar de novo!\n");
     }
-    mudar_cor(15);
+    mudar_cor(14);
 }
 
 // Final neutro: depende de quantos tesouros o jogador juntou antes de fugir
@@ -88,7 +88,7 @@ void final_neutro(void) {
         imprimir("Voce sai correndo para fora daquele templo esperando que o que ja havia encontrado fosse milagrosamente o suficiente para pagar sua divida... Voce volta para o seu barquinho e foge daquela ilha.\n");
         imprimir("Com isso, voce consegue pagar parte de sua divida, mas ainda tera que trabalhar o resto de sua vida para se tornar livre dela... Felizmente, pagar parte do valor fez o seu cobrador nao tomar uma medida mais radical contra voce...\n");
     }
-    mudar_cor(15);
+    mudar_cor(14);
 }
 
 // Tela de resumo exibida ao terminar o jogo (qualquer final)
@@ -208,7 +208,7 @@ int salao_do_altar(const char *intro) {
         imprimir("figura encapuzada");
         mudar_cor(14);
         imprimir(" e inicia um COMBATE.\n");
-        mudar_cor(15);
+        mudar_cor(14);
         if (luta_cultista() == 0) {
             return 0;
         }
@@ -236,19 +236,19 @@ void porta_esquerda(void) {
         case 1:
             mudar_cor(14);
             imprimir("Voce junta toda sua coragem e entra na sala determinado a enfrentar esse monstro para conseguir cumprir seu objetivo principal de ser livre de sua divida.\n");
-            mudar_cor(15);
+            mudar_cor(14);
             vitoria = func_combate("Monstro de Tentaculos", 35, 12);
             if (vitoria == 0) {
                 mudar_cor(12);
                 imprimir("\n=====FINAL RUIM=====\n");
                 imprimir("O tentaculo pega seu cadaver, joga para fora da sala e fecha a porta, esperando a sua proxima vitima.\n");
-                mudar_cor(15);
+                mudar_cor(14);
             } else {
-                final_bom();
+                mudar_cor(14);
             }
             break;
         case 2:
-            final_neutro();
+                mudar_cor(14);
             break;
     }
 }
@@ -274,7 +274,7 @@ void porta_direita(void) {
     imprimir("monstruosidade");
     mudar_cor(14);
     imprimir(" te ataca.\n");
-    mudar_cor(15);
+    mudar_cor(14);
 
     sangramento = 1;
     vitoria = func_combate("Aberracao Ancia", 40, 10);
@@ -284,7 +284,7 @@ void porta_direita(void) {
         imprimir("\n=====FINAL RUIM=====\n");
         imprimir("Voce e comido ainda vivo por esta criatura e tem uma morte horrivel e grotesca.\n");
         imprimir("Eu sei que voce vai voltar.\n");
-        mudar_cor(15);
+        mudar_cor(14);
     } else {
         final_bom();
     }
@@ -320,7 +320,7 @@ void caminho_esquerdo(void) {
             if (escolha == 2) {
                 mudar_cor(14);
                 imprimir("A figura te esfaqueia, e agora voce esta sangrando.\n");
-                mudar_cor(15);
+                mudar_cor(14);
                 sangramento = 1;
             }
             if (luta_cultista() == 0) return;
@@ -330,7 +330,7 @@ void caminho_esquerdo(void) {
             mudar_cor(14);
             imprimir("Voce e uma pessoa esperta e sabe que, seja la quem estiver la dentro, provavelmente nao o recebera de bracos abertos, tomando assim a sabia decisao de esperar o barulho parar.\n");
             imprimir("Mais ou menos 20 minutos se passaram, as vozes finalmente pararam de falar e voce entra na estrutura.\n");
-            mudar_cor(15);
+            mudar_cor(14);
             combate = 0;
             break;
 
@@ -341,7 +341,7 @@ void caminho_esquerdo(void) {
             imprimir("figura encapuzada");
             mudar_cor(14);
             imprimir(" esta vindo na sua direcao com uma faca na mao.\n");
-            mudar_cor(15);
+            mudar_cor(14);
             
             if (luta_cultista() == 0) return;
             break;
@@ -371,7 +371,7 @@ void caminho_esquerdo(void) {
         }
         imprimir("Analisando a sala iluminada, e possivel visualizar algumas escrituras na parede. Analisando-as melhor, voce consegue ler a frase \"Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn\", e embaixo desta frase havia um altar com o que parecia ser um anel levemente ensanguentado.\n");
         imprimir("Pegando o anel, voce o observa melhor e ve que ele tem um pequeno diamante. Com isso, decide guarda-lo na sua bolsa e seguir pelo caminho da porta levemente aberta.\n");
-        mudar_cor(15);
+        mudar_cor(14);
         
         anel = 1;
         pontuacao += 150;
@@ -424,7 +424,7 @@ void caminho_direito(void) {
             imprimir("figura encapuzada");
             mudar_cor(14);
             imprimir(" bloqueia seu caminho.\n");
-            mudar_cor(15);
+            mudar_cor(14);
             
             pontuacao += 100;
             if (luta_cultista() == 0) return;
@@ -432,19 +432,19 @@ void caminho_direito(void) {
         case 2:
             mudar_cor(14);
             imprimir("Seja la o que fosse aquele brilho, este lugar provavelmente esta cheio de armadilhas e voce deu sorte de ainda nao ter encontrado nenhuma...\n");
-            mudar_cor(15);
+            mudar_cor(14);
             break;
         case 3:
             mudar_cor(14);
             imprimir("Voce utiliza sua lanterna para iluminar o caminho e ve um conjunto de ossos que estava pendurado na entrada do lugar. Voce nao sabe se sao de fato ossos humanos, o que te da um arrepio na espinha. Apos se abaixar para evitar encostar nesses ossos, voce entra na camara, pega o que de fato era uma barra de ouro e sai.\n");
-            mudar_cor(15);
+            mudar_cor(14);
             pontuacao += 100;
             break;
     }
 
     mudar_cor(14);
     imprimir("\nSeguindo por esses corredores, voce encontra uma porta extremamente detalhada com ornamentos similares aos que voce viu na entrada do templo. Apos tentar abri-la, voce percebe que ela esta trancada. Analisando a fechadura, voce sabe que uma chave qualquer nao abriria essa porta; sera preciso voltar aqui depois.\n");
-    mudar_cor(15);
+    mudar_cor(14);
 
     if (salao_do_altar("\nSeguindo em frente, voce finalmente chega a algo que nao e um corredor ou outra camara, mas sim uma grande sala: ") == 0) return;
     porta_direita();
@@ -485,6 +485,6 @@ int main(void) {
     // --- Pontuacao e resumo ---
     tela_final();
     
-    mudar_cor(15); // Reseta a cor no fim da execucao
+    mudar_cor(0);
     return 0;
 }

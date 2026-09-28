@@ -15,9 +15,10 @@
 
 void mudar_cor(int cor) {
     switch (cor) {
-        case 15: printf("\033[0m"); break;
-        case 14: printf("\033[33m"); break;
-        case 12: printf("\033[31m"); break;
+        case 0: printf("\033[0m"); break;
+        case 15: printf("\033[97m"); break;
+        case 14: printf("\033[93m"); break;
+        case 12: printf("\033[91m"); break;
         default: return;
     }
     fflush(stdout);

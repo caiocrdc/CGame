@@ -22,7 +22,7 @@ int func_combate(const char *nome_inimigo, int hp_inimigo, int dano_inimigo) {
     printf("Inimigo: ");
     mudar_cor(12);
     printf("%s", nome_inimigo);
-    mudar_cor(15);
+    mudar_cor(14);
     printf(" | HP: %d | Dano: %d\n", hp_inimigo, dano_inimigo);
     imprimir("==================================\n");
 
@@ -30,13 +30,14 @@ int func_combate(const char *nome_inimigo, int hp_inimigo, int dano_inimigo) {
         if (sangramento) {
             mudar_cor(12);
             imprimir("\n[STATUS] Voce esta sangrando! Perdeu 5 de HP.\n");
-            mudar_cor(15);
+            mudar_cor(14);
             hp_jogador -= 5;
             if (hp_jogador <= 0) break;
         }
 
         printf("\nSeu HP: %d/%d | HP Inimigo: %d\n", hp_jogador, hp_maximo, hp_inimigo);
         printf("Sua vez, %s. Escolha uma acao:\n", nome_jogador);
+        mudar_cor(15);
         imprimir("1 - Atacar\n");
         printf("2 - Usar Atadura (Cura 15 HP e para o sangramento) [%d restantes]\n", ataduras);
 
@@ -46,6 +47,7 @@ int func_combate(const char *nome_inimigo, int hp_inimigo, int dano_inimigo) {
                 int max_arma = 1;
                 int arma;
 
+                mudar_cor(15);
                 imprimir("Com qual arma?\n");
                 printf("1 - Soco (Dano: %d)\n", 2 + bonus_dano);
                 if (facao) printf("%d - Facao (Dano: %d)\n", ++max_arma, 6 + bonus_dano);
@@ -89,7 +91,7 @@ int func_combate(const char *nome_inimigo, int hp_inimigo, int dano_inimigo) {
             printf("> O ");
             mudar_cor(12);
             printf("%s", nome_inimigo);
-            mudar_cor(15);
+            mudar_cor(14);
             printf(" te ataca, causando %d de dano!\n", dano_inimigo);
             hp_jogador -= dano_inimigo;
         }
@@ -99,11 +101,15 @@ int func_combate(const char *nome_inimigo, int hp_inimigo, int dano_inimigo) {
         hp_jogador = 0;
         mudar_cor(14);
         imprimir("\nSua visao escurece e voce cai no chao...\n");
-        mudar_cor(15);
+        mudar_cor(14);
         return 0;
     }
 
-    printf("\nO %s cai sem vida! Voce sobreviveu.\n", nome_inimigo);
+    printf("\nO ");
+    mudar_cor(12);
+    printf("%s", nome_inimigo);
+    mudar_cor(14);
+    printf(" cai sem vida! Voce sobreviveu.\n");
     pontuacao += hp_inicial_inimigo * 2;
     return 1;
 }
@@ -115,13 +121,13 @@ int luta_cultista(void) {
         mudar_cor(12);
         imprimir("\n=====FINAL RUIM=====\n");
         imprimir("A figura encapuzada ganha de voce e o usa como sacrificio para o Deus maligno que ela cultua.\n");
-        mudar_cor(15);
+        mudar_cor(14);
         return 0;
     }
 
     mudar_cor(14);
     imprimir("Analisando o corpo da figura, uma chave chama sua atencao; ela provavelmente deve abrir algo importante.\n");
-    mudar_cor(15);
+    mudar_cor(14);
     chave_simples = 1;
     combate = 1;
     return 1;
