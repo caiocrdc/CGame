@@ -7,6 +7,7 @@
 #endif
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #ifndef DELAY_LETRA
@@ -15,12 +16,22 @@
 
 void mudar_cor(int cor) {
     switch (cor) {
-        case 15: printf("\033[0m"); break;
-        case 14: printf("\033[33m"); break;
-        case 12: printf("\033[31m"); break;
+        case 0: printf("\033[0m"); break;
+        case 15: printf("\033[97m"); break;
+        case 14: printf("\033[93m"); break;
+        case 12: printf("\033[91m"); break;
         default: return;
     }
     fflush(stdout);
+}
+
+void limpar_terminal(void) {
+#ifdef _WIN32
+    system("cls");
+#else
+    fputs("\033[2J\033[H", stdout);
+    fflush(stdout);
+#endif
 }
 
 void imprimir(const char *texto) {

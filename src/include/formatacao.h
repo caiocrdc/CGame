@@ -3,5 +3,6 @@
 
 void mudar_cor(int cor);
 void imprimir(const char *texto);
+void limpar_terminal(void);
 
 #endif
