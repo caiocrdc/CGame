@@ -40,20 +40,24 @@ int func_combate(const char *nome_inimigo, int hp_inimigo, int dano_inimigo) {
         imprimir("1 - Atacar\n");
         printf("2 - Usar Atadura (Cura 15 HP e para o sangramento) [%d restantes]\n", ataduras);
 
-        switch (ler_int()) {
+        switch (ler_opcao(1, 2)) {
             case 1: {
                 int dano_causado = 2 + bonus_dano;
+                int max_arma = 1;
                 int arma;
 
                 imprimir("Com qual arma?\n");
                 printf("1 - Soco (Dano: %d)\n", 2 + bonus_dano);
-                if (facao) printf("2 - Facao (Dano: %d)\n", 6 + bonus_dano);
-                if (pistola) printf("3 - Pistola (Dano: %d | Municao: %d)\n", 10 + bonus_dano, municao);
-                arma = ler_int();
+                if (facao) printf("%d - Facao (Dano: %d)\n", ++max_arma, 6 + bonus_dano);
+                if (pistola) {
+                    ++max_arma;
+                    printf("%d - Pistola (Dano: %d | Municao: %d)\n", max_arma, 10 + bonus_dano, municao);
+                }
+                arma = ler_opcao(1, max_arma);
 
                 if (arma == 2 && facao) {
                     dano_causado = 6 + bonus_dano;
-                } else if (arma == 3 && pistola) {
+                } else if (arma == (facao ? 3 : 2) && pistola) {
                     if (municao > 0) {
                         dano_causado = 10 + bonus_dano;
                         municao--;

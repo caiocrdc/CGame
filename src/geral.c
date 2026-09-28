@@ -1,9 +1,65 @@
+#ifndef _WIN32
+#define _POSIX_C_SOURCE 200809L
+#endif
+
 #include "estado.h"
 #include "formatacao.h"
 #include "geral.h"
 
 #include <stdio.h>
 #include <stdlib.h>
+
+#ifdef _WIN32
+#include <conio.h>
+#include <io.h>
+#else
+#include <termios.h>
+#include <unistd.h>
+#endif
+
+enum { TECLA_ENTER = 13, TECLA_CIMA = 1000, TECLA_BAIXO };
+
+static int terminal_interativo(void) {
+#ifdef _WIN32
+    return _isatty(_fileno(stdin));
+#else
+    return isatty(STDIN_FILENO);
+#endif
+}
+
+static int ler_tecla(void) {
+#ifdef _WIN32
+    int tecla = _getch();
+    if (tecla == 0 || tecla == 224) {
+        tecla = _getch();
+        if (tecla == 72) return TECLA_CIMA;
+        if (tecla == 80) return TECLA_BAIXO;
+        return 0;
+    }
+    return tecla == '\r' ? TECLA_ENTER : tecla;
+#else
+    struct termios modo_original;
+    if (tcgetattr(STDIN_FILENO, &modo_original) != 0) return getchar();
+
+    struct termios modo_raw = modo_original;
+    modo_raw.c_lflag &= (tcflag_t)~(ICANON | ECHO);
+    if (tcsetattr(STDIN_FILENO, TCSANOW, &modo_raw) != 0) return getchar();
+
+    int tecla = getchar();
+    if (tecla == '\033') {
+        int inicio_sequencia = getchar();
+        tecla = inicio_sequencia == '[' ? getchar() : 0;
+        if (tecla == 'A') tecla = TECLA_CIMA;
+        else if (tecla == 'B') tecla = TECLA_BAIXO;
+        else tecla = 0;
+    } else if (tecla == '\n' || tecla == '\r') {
+        tecla = TECLA_ENTER;
+    }
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &modo_original);
+    return tecla;
+#endif
+}
 
 void limpar_buffer(void) {
     int caractere;
@@ -28,8 +84,31 @@ int ler_int(void) {
 }
 
 int ler_opcao(int minimo, int maximo) {
-    int opcao;
+    if (minimo > maximo) return minimo;
 
+    if (terminal_interativo()) {
+        int opcao = minimo;
+        int tecla;
+
+        printf("Use as setas e Enter. Opcao: %d", opcao);
+        fflush(stdout);
+        while ((tecla = ler_tecla()) != TECLA_ENTER) {
+            if (tecla == TECLA_CIMA) {
+                opcao = opcao == minimo ? maximo : opcao - 1;
+            } else if (tecla == TECLA_BAIXO) {
+                opcao = opcao == maximo ? minimo : opcao + 1;
+            } else {
+                continue;
+            }
+            printf("\r\033[KUse as setas e Enter. Opcao: %d", opcao);
+            fflush(stdout);
+        }
+        putchar('\n');
+        limpar_terminal();
+        return opcao;
+    }
+
+    int opcao;
     do {
         opcao = ler_int();
         if (opcao < minimo || opcao > maximo) {
@@ -37,17 +116,28 @@ int ler_opcao(int minimo, int maximo) {
         }
     } while (opcao < minimo || opcao > maximo);
 
+    limpar_terminal();
     return opcao;
 }
 
-void texto_item(int item) {
+static const char *descricao_item(int item) {
     switch (item) {
-        case 1: imprimir("1 - Facao --> 6 de dano\n"); break;
-        case 2: imprimir("2 - Pistola com 6 municoes --> 10 de dano por municao\n"); break;
-        case 3: imprimir("3 - Lanterna --> ilumina lugares escuros\n"); break;
-        case 4: imprimir("4 - 2 Ataduras --> curam 15 de vida e param sangramento\n"); break;
-        default: break;
+        case 1: return "Facao --> 6 de dano";
+        case 2: return "Pistola com 6 municoes --> 10 de dano por municao";
+        case 3: return "Lanterna --> ilumina lugares escuros";
+        case 4: return "2 Ataduras --> curam 15 de vida e param sangramento";
+        default: return "";
     }
+}
+
+static void imprimir_opcao_item(int opcao, int item) {
+    char buffer[100];
+    snprintf(buffer, sizeof(buffer), "%d - %s\n", opcao, descricao_item(item));
+    imprimir(buffer);
+}
+
+void texto_item(int item) {
+    imprimir_opcao_item(item, item);
 }
 
 void dar_item(int item) {
@@ -64,8 +154,10 @@ void dar_item(int item) {
 }
 
 void escolher_itens_iniciais(void) {
+    int itens_disponiveis[3];
     int primeiro;
     int segundo;
+    int quantidade = 0;
 
     for (int item = 1; item <= 4; item++) {
         texto_item(item);
@@ -76,16 +168,11 @@ void escolher_itens_iniciais(void) {
     imprimir("\nAgora escolha o seu segundo item:\n");
     for (int item = 1; item <= 4; item++) {
         if (item != primeiro) {
-            texto_item(item);
+            itens_disponiveis[quantidade] = item;
+            imprimir_opcao_item(++quantidade, item);
         }
     }
-
-    do {
-        segundo = ler_opcao(1, 4);
-        if (segundo == primeiro) {
-            printf("Voce ja escolheu esse item! Escolha outro: ");
-        }
-    } while (segundo == primeiro);
+    segundo = itens_disponiveis[ler_opcao(1, quantidade) - 1];
 
     dar_item(segundo);
 }

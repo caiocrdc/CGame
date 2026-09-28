@@ -23,6 +23,11 @@ void mudar_cor(int cor) {
     fflush(stdout);
 }
 
+void limpar_terminal(void) {
+    fputs("\033[2J\033[H", stdout);
+    fflush(stdout);
+}
+
 void imprimir(const char *texto) {
     const size_t tamanho = strlen(texto);
 

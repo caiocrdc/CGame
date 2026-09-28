@@ -33,6 +33,7 @@ int main(void) {
     // Pergunta o nome do jogador logo de cara
     imprimir("Digite o nome do seu explorador (sem espacos): ");
     scanf("%49s", nome_jogador);
+    limpar_buffer();
 
     // Cria a variável para montar a história com o nome
     char texto_inicial[1000];
@@ -41,108 +42,25 @@ int main(void) {
     // Imprime a história montada
     imprimir(texto_inicial);
 
-    imprimir("1- Facao --> 6 de dano\n");
-    imprimir("2 - Pistola com 6 municoes --> 10 de dano por municao\n");
-    imprimir("3 - Lanterna --> ilumina lugares escuros\n");
-    imprimir("4 - 2 Ataduras --> curam x de vida e param sangramento\n");
-    
-    scanf("%d", &escolha);
-    
-    if (escolha == 1){
-        imprimir("1 - Pistola com 6 municoes --> 10 de dano por municao\n");
-        imprimir("2 - Lanterna --> ilumina lugares escuros\n");
-        imprimir("3 - 2 Ataduras --> curam x de vida e param sangramento\n");
-        facao = 1;
-        scanf("%d", &escolha);
-        if (escolha == 1){
-            pistola = 1;
-            municao = 6;
-        }
-        if (escolha == 2){
-            lanterna = 1;
-        }
-        if (escolha == 3){
-            ataduras = 2;
-        }
-    }else if (escolha == 2){
-        imprimir("1- Facao --> 6 de dano\n");
-        imprimir("2 - Lanterna --> ilumina lugares escuros\n");
-        imprimir("3 - 2 Ataduras --> curam x de vida e param sangramento\n");
-        pistola = 1;
-        municao = 6;
-        scanf("%d", &escolha);
-        if (escolha == 1){
-            facao = 1;
-        }
-        if (escolha == 2){
-            lanterna = 1;
-        }
-        if (escolha == 3){
-            ataduras = 2;
-        }
-    }else if (escolha == 3){
-        imprimir("1- Facao --> 6 de dano\n");
-        imprimir("2 - Pistola com 6 municoes --> 10 de dano por municao\n");
-        imprimir("3 - 2 Ataduras --> curam x de vida e param sangramento\n");
-        lanterna = 1;
-        scanf("%d", &escolha);
-        if (escolha == 2){
-            pistola = 1;
-            municao = 6;
-        }
-        if (escolha == 1){
-            facao = 1;
-        }
-        if (escolha == 3){
-            ataduras = 2;
-        }
-    }else if (escolha == 4){
-        imprimir("1- Facao --> 6 de dano\n");
-        imprimir("2 - Pistola com 6 municoes --> 10 de dano por municao\n");
-        imprimir("3 - Lanterna --> ilumina lugares escuros\n");
-        ataduras = 2;
-        scanf("%d", &escolha);
-        if (escolha == 2){
-            pistola = 1;
-            municao = 6;
-        }
-        if (escolha == 3){
-            lanterna = 1;
-        }
-        if (escolha == 1){
-            facao = 1;
-        }
-    }
-    imprimir("\nInventario: \n");
-    if (facao == 1){
-        imprimir("Facao --> 6 de dano\n");
-    }
-    if (lanterna == 1){
-        imprimir("Lanterna --> ilumina lugares escuros\n");
-    }
-    if (pistola == 1){
-        imprimir("Pistola com 6 municoes --> 10 de dano por municao\n");
-    }
-    if (ataduras == 2){
-        imprimir("2 Ataduras --> curam vida e param sangramento\n");
-    }
+    escolher_itens_iniciais();
+    mostrar_inventario();
     
     imprimir("\nUtilizando aquele pequeno barco barato que voce havia comprado, voce consegue chegar na ilha voce caminha ate que vc encontra uma bifurcacao na estrada ambos os caminhos parecem que vao te levar ao mesmo lugar, qual caminho voce ira escolher?\n");
     imprimir("1 - Direita\n");
     imprimir("2 - Esquerda\n");
-    scanf("%d", &escolha);
+    escolha = ler_opcao(1, 2);
     // PROCESSO DE ENTRAR PELO LADO ESQUERDO
     if (escolha == 2){
         imprimir("Apos seguir pelo caminho do lado esquerdo por um tempo, voce percebe que voce havia retornado para a mesma bifurcacao que voce ja havia passado\n");
     imprimir("1 - Ir para a Direita\n");
     imprimir("2 - Continuar indo para a Esquerda\n");
-        scanf("%d", &escolha);
+        escolha = ler_opcao(1, 2);
     }
     if (escolha == 2){
         imprimir("Apos seguir pelo caminho do lado esquerdo por mais tempo ainda, voce percebe que voce havia retornado novamente para a mesma bifurcacao que voce ja havia passado\n");
     imprimir("1 - Ir para a Direita\n");
     imprimir("2 - Continuar indo para a Esquerda\n");
-        scanf("%d", &escolha);
+        escolha = ler_opcao(1, 2);
     }
     // LADO ESQUERDO
     if (escolha == 2){
@@ -152,12 +70,12 @@ int main(void) {
     if (lanterna == 1){
             imprimir("3 - iluminar o local com sua lanterna\n");
         }
-    scanf("%d", &escolha);
+    escolha = ler_opcao(1, lanterna ? 3 : 2);
     if (escolha == 1){ // se aproximar pra enxergar melhor
         imprimir("Voce estava tentando se aproximar mas sem querer acaba tropecando na raiz de uma arvore, fazendo um pouco de barulho, para o seu azar uma figura humanoide encapuzada escutou o som veio na sua direcao e te encontrou...\n");
         imprimir("1 - Atacar.\n");
         imprimir("2 - Tentar conversar com a figura.\n");
-        scanf("%d", &escolha);
+        escolha = ler_opcao(1, 2);
         if (escolha == 1){
             
             vitoria = func_combate("Cultista Encapuzado", 15, 6);
@@ -210,13 +128,13 @@ int main(void) {
         imprimir("\nVoce entra dentro desta estrutura e decide analisar o interior dela, em busca de algo para pagar sua divida claro... encontrando assim 2 barras de ouro, observando outros detalhes do local e possivel ver que as paredes estao infestadas de vinhas e o chao tem um pouco de musgo e oque aparenta ser pegadas indo para a direcao de uma sala um pouco mais iluminada, entretanto voce tambem encontra 2 outros possiveis caminhos, ambos sao portas, 1 porta com diversos ornamentos trancadas com uma fechadura verde e a outra que esta levemente aberta.\n");
         imprimir("1 - Seguir as pegadas.\n");
         imprimir("2 - Entrar na porta levemente aberta\n");
-        scanf("%d", &escolha);
+        escolha = ler_opcao(1, 2);
     }
     if (escolha == 1){ // pegadas
         if (combate == 0){
             imprimir("voce e cauteloso e segue as pegada silenciosamente, ao entrar dentro da sala iluminada e possivel visualizar uma figura de costas fazendo alguma coisa em  cima de algo que parecia ser um altar.\n");
             imprimir("1 - atacar a figura por tras.\n");
-            scanf("%d", &escolha);
+            escolha = ler_opcao(1, 1);
             if (escolha == 1){
                 imprimir("Voce rapidamente neutraliza o ser encapuzado evitando um combate\n");
                 combate = 1;
@@ -232,7 +150,7 @@ int main(void) {
         imprimir("\nA porta levemente aberta levava para uma grande sala, o local nao estava muito escuro uma vez que a luz da lua podia ilumina-lo, com isso era possivel de ver algo similar com o interior de uma igreja com diversos assentos e um altar, entretanto, haviam cabecas humanoides com uma barba em formato de tentaculos esculpidas nos pilares do lugar.\n");
             imprimir("1 - procurar algo no altar\n");
             imprimir("2 - procurar nos cantos da sala\n");
-            scanf("%d", &escolha);
+            escolha = ler_opcao(1, 2);
         if (escolha == 2){
             imprimir("Procurando algo de valor que voce possa nao ter percebido nos cantos da sala, voce encontra uma passagem bloqueada por diversas raizes.\n");
             if (facao == 1){
@@ -258,7 +176,8 @@ int main(void) {
             if (chave_simples == 0 && facao == 1){
                 imprimir("2 - Tentar abrir a caixa usando o facao.\n");
             }
-            scanf("%d", &escolha);
+            int max_opcao = facao && chave_simples ? 3 : facao || chave_simples ? 2 : 1;
+            escolha = ler_opcao(1, max_opcao);
             if (escolha == 2 || escolha == 3){
                 imprimir("Dentro da caixa havia um colar com um pingente de uma pedra que parece esmeralda, isto deve valer um bom dinheiro, mas que por algum motivo tambem faz voce se sentir protegido\n");
                 colar_hp = 1;
@@ -285,7 +204,7 @@ int main(void) {
                     imprimir("\nSaindo do salao e indo para a porta ornamental que estava trancada, voce decide utilizar a chave verde que voce encontrou no altar, assim abrindo a porta e entrando em uma sala que tinha um pequeno altar com diversas velas e um diamante grande o suficiente para pagar sua divida, entretanto, voce escuta um barulho de algo se mexendo nas paredes desta sala, para sua surpresa nao era nada que voce tenha visto antes, mas sim um tentaculo maior do que um homem... por mais assustador que seja para poder quitar sua divida aquele diamante gigante certamente sera necessario...\n");
                     imprimir("1 - Entrar na sala\n");
                     imprimir("2 - Fugir deste templo macabro\n");
-                    scanf("%d", &escolha);
+                    escolha = ler_opcao(1, 2);
                     if (escolha == 1){
                         imprimir("Voce junta toda sua coragem e entra dentro da sala determinado a enfrentar este monstro para conseguir cumprir seu objetivo principal de conseguir ser livre de sua divida.\n");
                         
@@ -320,7 +239,7 @@ int main(void) {
         imprimir("Seguindo pela Direita voce encontra oque parece ser um templo antigo e que aparenta ter sido abandonado ha muito tempo...\n");
         imprimir("1 - Analisar a entrada do templo.\n");
         imprimir("2 - Entrar no templo.\n");
-        scanf("%d", &escolha);
+        escolha = ler_opcao(1, 2);
         
             if (escolha == 1){
                 if (lanterna == 1){
@@ -340,7 +259,7 @@ int main(void) {
     if (lanterna == 1){
         imprimir("3 - Utilizar sua lanterna para ver se existem armadilhas por perto.\n");   
     }
-        scanf("%d", &escolha);
+        escolha = ler_opcao(1, lanterna ? 3 : 2);
         if (escolha == 1){
             imprimir("Cegado pela possibilidade de encontrar mais tesouros para conseguir pagar sua divida voce vai na direcao do brilho, entrando na camara voce bate em um conjunto de ossos q estava pendurado na entrada do lugar, voce nao sabe se sao de fato ossos humanos, mas o mais preocupante e que o barulho que voce fez colidindo com eles parece ter chamado a atencao de algo ou alguem para a sua direcao, voce se agiliza para pegar oque de fato era uma barra de ouro no centro da camara mas na hora de sair, uma figura encapuzada bloqueia seu caminho.\n");
                 
@@ -370,7 +289,7 @@ int main(void) {
             imprimir("\nSeguindo em frente voce finalmente chega em algo que nao e um corredor ou outra camara mas sim uma grande sala, o local nao estava muito escuro uma vez que a luz da lua podia ilumina-lo, com isso era possivel de ver algo similar com o interior de uma igreja com diversos assentos e um altar, entretanto, haviam cabecas humanoides com uma barba em formato de tentaculos esculpidas nos pilares do lugar.\n");
             imprimir("1 - procurar algo no altar\n");
             imprimir("2 - procurar nos cantos da sala\n");
-            scanf("%d", &escolha);
+            escolha = ler_opcao(1, 2);
         if (escolha == 2){
             imprimir("Procurando algo de valor que voce possa nao ter percebido nos cantos da sala, voce encontra uma passagem bloqueada por diversas raizes.\n");
             if (facao == 1){
@@ -396,7 +315,8 @@ int main(void) {
             if (chave_simples == 0 && facao == 1){
                 imprimir("2 - Tentar abrir a caixa usando o facao.\n");
             }
-            scanf("%d", &escolha);
+            int max_opcao = facao && chave_simples ? 3 : facao || chave_simples ? 2 : 1;
+            escolha = ler_opcao(1, max_opcao);
             if (escolha == 2 || escolha == 3){
                 imprimir("Dentro da caixa havia um colar com um pingente de uma pedra que parece esmeralda, isto deve valer um bom dinheiro, mas que por algum motivo tambem faz voce se sentir protegido\n");
                 colar_hp = 1;
