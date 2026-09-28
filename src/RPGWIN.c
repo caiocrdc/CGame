@@ -4,8 +4,6 @@
 
 // objeto de escolha
 int escolha = 0;
-//contador esquerda
-int esquerda = 0;
 //itens do inventario
 int lanterna = 0;
 int colar_forca = 0;
@@ -229,17 +227,15 @@ int main() {
     imprimir("1 - Ir para a Direita\n");
     imprimir("2 - Continuar indo para a Esquerda\n");
         scanf("%d", &escolha);
-        esquerda += 1;
     }
     if (escolha == 2){
         imprimir("Apos seguir pelo caminho do lado esquerdo por mais tempo ainda, voce percebe que voce havia retornado novamente para a mesma bifurcacao que voce ja havia passado\n");
     imprimir("1 - Ir para a Direita\n");
     imprimir("2 - Continuar indo para a Esquerda\n");
         scanf("%d", &escolha);
-        esquerda += 1;
     }
     // LADO ESQUERDO
-    if (esquerda == 2){
+    if (escolha == 2){
         imprimir("Apos mais algumas horas caminhando pelo caminho esquerdo, voce finalmente encontra um buraco na parte de tras de uma estrutura, o interior do local esta muito escuro e voce pode escutar pessoas falando uma lingua estranha la dentro.\n");
     imprimir("1 - Se aproximar para tentar enxergar melhor\n");
     imprimir("2 - Esperar o barulho parar\n");
@@ -288,7 +284,7 @@ int main() {
 
         if (vitoria == 0){
                             imprimir("=====FINAL RUIM=====\n");
-                            imprimir("A figura encapuzada ganha de voce e te usa como saacrificio para o Deus maligno que ela cultua\n");
+                            imprimir("A figura encapuzada ganha de voce e te usa como sacrificio para o Deus maligno que ela cultua\n");
                     }
                     if (vitoria == 1){
                         imprimir("Analisando o corpo da figura para ver oque ela tinha, a figura nao tinha nada de valioso mas uma chave chama sua atencao, ela provavelmente deve abrir algo importante.\n");
@@ -335,7 +331,7 @@ int main() {
                 escolha = 1;
             }
             if (facao == 0){
-                imprimir("Infelizmente voce nao possue uma ferramenta que possa cortar silenciosamente estas raizes, com isso o melhor e voltar e procurar alguma coisa no altar.\n");
+                imprimir("Infelizmente voce nao possui uma ferramenta que possa cortar silenciosamente estas raizes, com isso o melhor e voltar e procurar alguma coisa no altar.\n");
                 escolha = 1;
             }
         }
@@ -479,7 +475,7 @@ int main() {
         }
         if (escolha == 1){
             imprimir("\nProcurando algo de valor no altar voce encontra um cetro com a ponta em um formato que simboliza a criatura esculpida nos pilares deste lugar, voce decide pega-lo, dado que ele parecia ser feito de alguma pedra valiosa, alem disso voce tambem encontra uma caixa trancada com um cadeado e uma chave verde em cima.\n");
-            imprimir("1 - Sair da sala as coisas que voce encontrou e testar a chave na porta com diversos ornamentos.\n");
+            imprimir("1 - Sair da sala com as coisas que voce encontrou e testar a chave na porta com diversos ornamentos.\n");
             if (facao == 1 && chave_simples == 1){
                 imprimir("2 - Tentar abrir a caixa usando o facao.\n");
                 imprimir("3 - Utilizar a Chave Simples.\n");

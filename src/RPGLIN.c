@@ -1,10 +1,9 @@
 #include <stdio.h>
-#include<string.h>
+#include <string.h>
 #include <unistd.h>
+
 // objeto de escolha
 int escolha = 0;
-//contador esquerda
-int esquerda = 0;
 //itens do inventario
 int lanterna = 0;
 int colar_forca = 0;
@@ -18,18 +17,119 @@ int pistola = 0;
 int sangramento = 0; // status de sangramento toma 5 de dano por escolha em combate
 int combate = 0; // Contador de combates
 int vitoria = 1; // Vitoria = 1 Derrota = 0, usar como verificador apos combate
+int hp_jogador = 40; // Vida base do explorador
+char nome_jogador[50]; // Guarda o nome do personagem
 
 void imprimir(char *str) {
     for (int i = 0; i < strlen(str); i++) {
         printf("%c", str[i]);
         fflush(stdout);
-        usleep(3000);
+        usleep(3500);
     }
 }
 
+// === FUNÇÃO DE COMBATE ===
+int func_combate(char* nome_inimigo, int hp_inimigo, int dano_inimigo) {
+    imprimir("\n==================================\n");
+    imprimir("        COMBATE INICIADO!         \n");
+    printf("Inimigo: %s | HP: %d | Dano: %d\n", nome_inimigo, hp_inimigo, dano_inimigo);
+    imprimir("==================================\n");
+
+    // Bônus de HP máximo se tiver o colar
+    int hp_maximo = (colar_hp == 1) ? 60 : 40; 
+    
+    // Bônus de dano se tiver o colar de força
+    int bonus_dano = (colar_forca == 1) ? 3 : 0; 
+
+    // Atualiza a vida máxima do jogador no momento da batalha caso tenha pegado o colar
+    if (colar_hp == 1 && hp_jogador == 40) hp_jogador = 60;
+
+    // Loop de combate (enquanto os dois estiverem vivos)
+    while (hp_jogador > 0 && hp_inimigo > 0) {
+        
+        // Efeito de Sangramento
+        if (sangramento == 1) {
+            imprimir("\n[STATUS] Voce esta sangrando! Perdeu 5 de HP.\n");
+            hp_jogador -= 5;
+            if (hp_jogador <= 0) break; // Morreu de sangramento
+        }
+
+        printf("\nSeu HP: %d/%d | HP Inimigo: %d\n", hp_jogador, hp_maximo, hp_inimigo);
+        printf("Sua vez, %s. Escolha uma acao:\n", nome_jogador); // Usa o nome no combate!
+        imprimir("1 - Atacar\n");
+        imprimir("2 - Usar Atadura (Cura 15 HP e para o sangramento)\n");
+        scanf("%d", &escolha);
+
+        // --- TURNO DO JOGADOR ---
+        if (escolha == 1) { // ATACAR
+            int dano_causado = 2 + bonus_dano; // Soco (Dano base 2)
+            
+            imprimir("Com qual arma?\n");
+            printf("1 - Soco (Dano: %d)\n", dano_causado);
+            if (facao == 1) printf("2 - Facao (Dano: %d)\n", 6 + bonus_dano);
+            if (pistola == 1) printf("3 - Pistola (Dano: %d | Municao: %d)\n", 10 + bonus_dano, municao);
+            
+            int arma;
+            scanf("%d", &arma);
+
+            if (arma == 2 && facao == 1) {
+                dano_causado = 6 + bonus_dano;
+            } else if (arma == 3 && pistola == 1) {
+                if (municao > 0) {
+                    dano_causado = 10 + bonus_dano;
+                    municao--;
+                } else {
+                    imprimir("A arma apenas faz um barulho de *click*. Sem municao! Voce deu um soco de desespero.\n");
+                }
+            }
+            
+            printf("\n> Voce atacou causando %d de dano!\n", dano_causado);
+            hp_inimigo -= dano_causado;
+
+        } else if (escolha == 2) { // CURAR
+            if (ataduras > 0) {
+                imprimir("\n> Voce rapidamente enfaixou seus machucados! (+15 HP)\n");
+                ataduras--;
+                hp_jogador += 15;
+                sangramento = 0; // Para de sangrar
+                if (hp_jogador > hp_maximo) hp_jogador = hp_maximo; // Não deixa passar do HP máximo
+            } else {
+                imprimir("\n> Voce procura na bolsa, mas nao tem ataduras! Voce perdeu seu turno...\n");
+            }
+        } else {
+            imprimir("\n> Opcao invalida! Na confusao da batalha, voce tropecou e perdeu o turno.\n");
+        }
+
+        // --- TURNO DO INIMIGO ---
+        if (hp_inimigo > 0) {
+            printf("> O %s te ataca, causando %d de dano!\n", nome_inimigo, dano_inimigo);
+            hp_jogador -= dano_inimigo;
+        }
+    }
+
+    // --- RESULTADO DO COMBATE ---
+    if (hp_jogador <= 0) {
+        imprimir("\nSua visao escurece e voce cai no chao...\n");
+        return 0; // Retorna derrota
+    } else {
+        printf("\nO %s cai sem vida! Voce sobreviveu.\n", nome_inimigo);
+        return 1; // Retorna vitória
+    }
+}
+// =========================
+
 int main() {
-    // selecao de itens iniciais
-    imprimir("Voce e { nome }, um(a) explorador(a) que estava desesperadamente precisando de dinheiro para pagar uma divida. Voce ouve boatos de que uma ilha nao tao distante do litoral guarda tesouros que podem quitar esta divida, entao voce decide para la em busca destes tesouros. Com isso, voce vai em uma loja clandestina para comprar um pequeno barco e como o dinheiro so permite que voce compre mais 2 itens para levar voce tera de escolher entre: \n");
+    
+    // Pergunta o nome do jogador logo de cara
+    imprimir("Digite o nome do seu explorador (sem espacos): ");
+    scanf("%s", nome_jogador);
+
+    // Cria a variável para montar a história com o nome
+    char texto_inicial[1000];
+    sprintf(texto_inicial, "\nVoce e %s, um(a) explorador(a) que estava desesperadamente precisando de dinheiro para pagar uma divida. Voce ouve boatos de que uma ilha nao tao distante do litoral guarda tesouros que podem quitar esta divida, entao voce decide ir para la em busca destes tesouros. Com isso, voce vai em uma loja clandestina para comprar um pequeno barco e como o dinheiro so permite que voce compre mais 2 itens para levar voce tera de escolher entre: \n\n", nome_jogador);
+    
+    // Imprime a história montada
+    imprimir(texto_inicial);
 
     imprimir("1- Facao --> 6 de dano\n");
     imprimir("2 - Pistola com 6 municoes --> 10 de dano por municao\n");
@@ -114,30 +214,28 @@ int main() {
         imprimir("Pistola com 6 municoes --> 10 de dano por municao\n");
     }
     if (ataduras == 2){
-        imprimir("2 Ataduras --> curam x de vida e param sangramento\n");
+        imprimir("2 Ataduras --> curam vida e param sangramento\n");
     }
     
     imprimir("\nUtilizando aquele pequeno barco barato que voce havia comprado, voce consegue chegar na ilha voce caminha ate que vc encontra uma bifurcacao na estrada ambos os caminhos parecem que vao te levar ao mesmo lugar, qual caminho voce ira escolher?\n");
     imprimir("1 - Direita\n");
     imprimir("2 - Esquerda\n");
     scanf("%d", &escolha);
-// PROCESSO DE ENTRAR PELO LADO ESQUERDO
+    // PROCESSO DE ENTRAR PELO LADO ESQUERDO
     if (escolha == 2){
         imprimir("Apos seguir pelo caminho do lado esquerdo por um tempo, voce percebe que voce havia retornado para a mesma bifurcacao que voce ja havia passado\n");
     imprimir("1 - Ir para a Direita\n");
     imprimir("2 - Continuar indo para a Esquerda\n");
         scanf("%d", &escolha);
-        esquerda += 1;
     }
     if (escolha == 2){
         imprimir("Apos seguir pelo caminho do lado esquerdo por mais tempo ainda, voce percebe que voce havia retornado novamente para a mesma bifurcacao que voce ja havia passado\n");
     imprimir("1 - Ir para a Direita\n");
     imprimir("2 - Continuar indo para a Esquerda\n");
         scanf("%d", &escolha);
-        esquerda += 1;
     }
     // LADO ESQUERDO
-    if (esquerda == 2){
+    if (escolha == 2){
         imprimir("Apos mais algumas horas caminhando pelo caminho esquerdo, voce finalmente encontra um buraco na parte de tras de uma estrutura, o interior do local esta muito escuro e voce pode escutar pessoas falando uma lingua estranha la dentro.\n");
     imprimir("1 - Se aproximar para tentar enxergar melhor\n");
     imprimir("2 - Esperar o barulho parar\n");
@@ -151,19 +249,23 @@ int main() {
         imprimir("2 - Tentar conversar com a figura.\n");
         scanf("%d", &escolha);
         if (escolha == 1){
-            //func_combate fazer essa bomba retornar uma vitoria = 1 ou 0
+            
+            vitoria = func_combate("Cultista Encapuzado", 15, 6);
+
             if (vitoria == 0){
-                            imprimir("=====FINAL RUIM=====");
-                            imprimir("A figura encapuzada ganha de voce e te usa como saacrificio para o Deus maligno que ela cultua");
+                            imprimir("=====FINAL RUIM=====\n");
+                            imprimir("A figura encapuzada ganha de voce e te usa como saacrificio para o Deus maligno que ela cultua\n");
                     }
                     if (vitoria == 1){
                         combate = 1;
                     }
                 } // if da escolha 1 "Atacar"
         if (escolha == 2){
-            imprimir("A figura te esfaqueia, agora voce esta sangrando.");
+            imprimir("A figura te esfaqueia, agora voce esta sangrando.\n");
             sangramento = 1;
-            //func_combate fazer essa bomba retornar uma vitoria = 1 ou 0
+            
+            vitoria = func_combate("Cultista Encapuzado", 15, 6);
+
             if (vitoria == 0){
                             imprimir("=====FINAL RUIM=====\n");
                             imprimir("A figura encapuzada ganha de voce e te usa como saacrificio para o Deus maligno que ela cultua\n");
@@ -176,11 +278,13 @@ int main() {
                 } // if da escolha 2 "Conversar"
     } 
     if (escolha == 3){ // usar a lanterna
-        imprimir("voce ilumina o interior da estrutura com a sua lanterna, para o seu azar o barulho de pessoas falando era de fato pessoas falando... oque voce esperava? de qualquer forma, agora uma figura encapuzada esta vindo na sua direcao com uma faca na mao.");
-        //func_combate fazer essa bomba retornar uma vitoria = 1 ou 0
+        imprimir("voce ilumina o interior da estrutura com a sua lanterna, para o seu azar o barulho de pessoas falando era de fato pessoas falando... oque voce esperava? de qualquer forma, agora uma figura encapuzada esta vindo na sua direcao com uma faca na mao.\n");
+        
+        vitoria = func_combate("Cultista Encapuzado", 15, 6);
+
         if (vitoria == 0){
-                            imprimir("=====FINAL RUIM=====");
-                            imprimir("A figura encapuzada ganha de voce e te usa como saacrificio para o Deus maligno que ela cultua");
+                            imprimir("=====FINAL RUIM=====\n");
+                            imprimir("A figura encapuzada ganha de voce e te usa como sacrificio para o Deus maligno que ela cultua\n");
                     }
                     if (vitoria == 1){
                         imprimir("Analisando o corpo da figura para ver oque ela tinha, a figura nao tinha nada de valioso mas uma chave chama sua atencao, ela provavelmente deve abrir algo importante.\n");
@@ -192,10 +296,12 @@ int main() {
         imprimir("Mais ou menos 20 minutos se passaram e as vozes finalmente pararam de falar e voce entra dentro da estrutura.\n");
         combate = 0;
     }
-    imprimir("\nVoce entra dentro desta estrutura e decide analisar o interior dela, em busca de algo para pagar sua divida claro... encontrando assim 2 barras de ouro, observando outros detalhes do local e possivel ver que as paredes estao infestadas de vinhas e o chao tem um pouco de musgo e oque aparenta ser pegadas indo para a direcao de uma sala um pouco mais iluminada, entretanto voce tambem encontra 2 outros possiveis caminhos, ambos sao portas, 1 porta com diversos ornamentos trancadas com uma fechadura verde e a outra que esta levemente aberta.\n");
-    imprimir("1 - Seguir as pegadas.\n");
-    imprimir("2 - Entrar na porta levemente aberta\n");
-    scanf("%d", &escolha);
+    if (hp_jogador > 0) { // Só continua a história se sobreviveu
+        imprimir("\nVoce entra dentro desta estrutura e decide analisar o interior dela, em busca de algo para pagar sua divida claro... encontrando assim 2 barras de ouro, observando outros detalhes do local e possivel ver que as paredes estao infestadas de vinhas e o chao tem um pouco de musgo e oque aparenta ser pegadas indo para a direcao de uma sala um pouco mais iluminada, entretanto voce tambem encontra 2 outros possiveis caminhos, ambos sao portas, 1 porta com diversos ornamentos trancadas com uma fechadura verde e a outra que esta levemente aberta.\n");
+        imprimir("1 - Seguir as pegadas.\n");
+        imprimir("2 - Entrar na porta levemente aberta\n");
+        scanf("%d", &escolha);
+    }
     if (escolha == 1){ // pegadas
         if (combate == 0){
             imprimir("voce e cauteloso e segue as pegada silenciosamente, ao entrar dentro da sala iluminada e possivel visualizar uma figura de costas fazendo alguma coisa em  cima de algo que parecia ser um altar.\n");
@@ -207,8 +313,8 @@ int main() {
             }
         }
         if (combate == 1){
-           imprimir("As pegadas que estavam no chao provavelmente e da figura que vc havia eliminado recentemente, analisando a sala iluminada, e possivel visualizar algumas escrituras na parede, analisando-as melhor vc consegue uma frase 'Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn', e em baixo desta frase estava um altar com oq parecia ser um anel levemente ensanguentado.");
-            imprimir("pegando o anel voce o observa melhor e  ve que ele tem um pequeno diamante nele, com isso voce decide guarda-lo na sua bolsa e seguir pelo caminho da porta levemente aberta");
+           imprimir("As pegadas que estavam no chao provavelmente e da figura que vc havia eliminado recentemente, analisando a sala iluminada, e possivel visualizar algumas escrituras na parede, analisando-as melhor vc consegue uma frase 'Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn', e em baixo desta frase estava um altar com oq parecia ser um anel levemente ensanguentado.\n");
+            imprimir("pegando o anel voce o observa melhor e  ve que ele tem um pequeno diamante nele, com isso voce decide guarda-lo na sua bolsa e seguir pelo caminho da porta levemente aberta\n");
             escolha = 2;
         } // apos o combate
         } // pegadas
@@ -225,7 +331,7 @@ int main() {
                 escolha = 1;
             }
             if (facao == 0){
-                imprimir("Infelizmente voce nao possue uma ferramenta que possa cortar silenciosamente estas raizes, com isso o melhor e voltar e procurar alguma coisa no altar.");
+                imprimir("Infelizmente voce nao possui uma ferramenta que possa cortar silenciosamente estas raizes, com isso o melhor e voltar e procurar alguma coisa no altar.\n");
                 escolha = 1;
             }
         }
@@ -251,8 +357,9 @@ int main() {
             if (escolha == 1){ // sair do altar e voltar para a porta
                 if (combate == 0){ // verifica se o jogador teve um combate antes
                     imprimir("Saindo do local voce e descuidado e acaba sendo emboscado por uma figura encapuzada e inicia um COMBATE\n");
-                        //func_combate fazer essa bomba retornar uma vitoria = 1 ou 0
-                        // os ifs verificam se o jogador venceu ou nao o combate
+                        
+                        vitoria = func_combate("Cultista Encapuzado", 15, 6);
+
                         if (vitoria == 0){
                             imprimir("=====FINAL RUIM=====\n");
                             imprimir("A figura encapuzada ganha de voce e te usa como sacrificio para o Deus maligno que ela cultua\n");
@@ -271,8 +378,9 @@ int main() {
                     scanf("%d", &escolha);
                     if (escolha == 1){
                         imprimir("Voce junta toda sua coragem e entra dentro da sala determinado a enfrentar este monstro para conseguir cumprir seu objetivo principal de conseguir ser livre de sua divida.\n");
-                        //func_combate fazer essa bomba retornar uma vitoria = 1 ou 0
-                        // os ifs verificam se o jogador venceu ou nao o combate
+                        
+                    vitoria = func_combate("Monstro de Tentaculos", 35, 12);
+
                     if (vitoria == 0){
                         imprimir("=====FINAL RUIM=====\n");
                         imprimir("O tentaculo pega seu cadaver joga para fora da sala e fecha a porta, esperando a sua proxima vitima.\n");
@@ -281,7 +389,7 @@ int main() {
                     if (vitoria == 1){
                         imprimir("=====FINAL BOM=====\n");
                         imprimir("Apos a luta, voce sai correndo para fora daquele templo sabendo que oque voce ja havia encontrado era muito mais  do que o suficiente para pagar sua divida! assim, voltando para o seu barquinho e fugindo daquela ilha.\n");
-                        imprimir("Voce consegue pagar toda sua divida e viver uma vida de luxo pelos proximos anos sem se preocupar em trabalhar de novo!");
+                        imprimir("Voce consegue pagar toda sua divida e viver uma vida de luxo pelos proximos anos sem se preocupar em trabalhar de novo!\n");
                         escolha = 0;
                     }
                     }
@@ -325,7 +433,9 @@ int main() {
         scanf("%d", &escolha);
         if (escolha == 1){
             imprimir("Cegado pela possibilidade de encontrar mais tesouros para conseguir pagar sua divida voce vai na direcao do brilho, entrando na camara voce bate em um conjunto de ossos q estava pendurado na entrada do lugar, voce nao sabe se sao de fato ossos humanos, mas o mais preocupante e que o barulho que voce fez colidindo com eles parece ter chamado a atencao de algo ou alguem para a sua direcao, voce se agiliza para pegar oque de fato era uma barra de ouro no centro da camara mas na hora de sair, uma figura encapuzada bloqueia seu caminho.\n");
-                //func_combate fazer essa bomba retornar uma vitoria = 1 ou 0
+                
+            vitoria = func_combate("Cultista Encapuzado", 15, 6);
+
             if (vitoria == 0){
                             imprimir("=====FINAL RUIM=====\n");
                             imprimir("A figura encapuzada ganha de voce e te usa como saacrificio para o Deus maligno que ela cultua\n");
@@ -345,7 +455,7 @@ int main() {
             imprimir("voce utiliza sua lanterna para iluminar o caminho e voce ve um conjunto de ossos que estava pendurado na entrada do lugar, voce nao sabe se sao de fato ossos humanos oque te da um arrepio na espinha, apos se abaixar para evitar encostar nestes ossos voce entra na camara pega oque de fato era uma barra de ouro e sai.\n");
             escolha = 0;
             }
-        if (escolha == 0){
+        if (hp_jogador > 0 && escolha == 0){ // Só segue a exploração se estiver vivo
             imprimir("\nSeguindo estes corredores voce encontra uma porta extremamente detalhada com ornamentos similares aos que voce viu na entrada do templo, apos tentar abri-la voce percebe que ela esta trancada e analisando a fechadura voce sabe que uma chave qualquer nao abriria esta porta, e possivel voltar aqui depois.\n");
             imprimir("\nSeguindo em frente voce finalmente chega em algo que nao e um corredor ou outra camara mas sim uma grande sala, o local nao estava muito escuro uma vez que a luz da lua podia ilumina-lo, com isso era possivel de ver algo similar com o interior de uma igreja com diversos assentos e um altar, entretanto, haviam cabecas humanoides com uma barba em formato de tentaculos esculpidas nos pilares do lugar.\n");
             imprimir("1 - procurar algo no altar\n");
@@ -359,13 +469,13 @@ int main() {
                 escolha = 1;
             }
             if (facao == 0){
-                imprimir("Infelizmente voce nao possue uma ferramenta que possa cortar silenciosamente estas raizes, com isso o melhor e voltar e procurar alguma coisa no altar.");
+                imprimir("Infelizmente voce nao possue uma ferramenta que possa cortar silenciosamente estas raizes, com isso o melhor e voltar e procurar alguma coisa no altar.\n");
                 escolha = 1;
             }
         }
         if (escolha == 1){
             imprimir("\nProcurando algo de valor no altar voce encontra um cetro com a ponta em um formato que simboliza a criatura esculpida nos pilares deste lugar, voce decide pega-lo, dado que ele parecia ser feito de alguma pedra valiosa, alem disso voce tambem encontra uma caixa trancada com um cadeado e uma chave verde em cima.\n");
-            imprimir("1 - Sair da sala as coisas que voce encontrou e testar a chave na porta com diversos ornamentos.\n");
+            imprimir("1 - Sair da sala com as coisas que voce encontrou e testar a chave na porta com diversos ornamentos.\n");
             if (facao == 1 && chave_simples == 1){
                 imprimir("2 - Tentar abrir a caixa usando o facao.\n");
                 imprimir("3 - Utilizar a Chave Simples.\n");
@@ -385,8 +495,9 @@ int main() {
             if (escolha == 1){ // sair do altar e voltar para a porta
                 if (combate == 0){ // verifica se o jogador teve um combate antes
                     imprimir("Saindo do local voce e descuidado e acaba sendo emboscado por uma figura encapuzada e inicia um COMBATE\n");
-                        //func_combate fazer essa bomba retornar uma vitoria = 1 ou 0
-                        // os ifs verificam se o jogador venceu ou nao o combate
+                        
+                    vitoria = func_combate("Cultista Encapuzado", 15, 6);
+
                         if (vitoria == 0){
                             imprimir("=====FINAL RUIM=====\n");
                             imprimir("A figura encapuzada ganha de voce e te usa como sacrificio para o Deus maligno que ela cultua\n");
@@ -399,19 +510,25 @@ int main() {
                 if (combate == 1){
                     imprimir("\nSaindo deste salao voce volta para aquela porta ornamental e decide tentar abri-la com sua nova chave, para sua surpresa ela realmente abre e voce entra em uma sala que tinha um pequeno altar com diversas velas e um diamante grande o suficiente para pagar sua divida, entretanto, tambem havia uma figura encapuzada ajoelhada na frente do altar\n");
                     imprimir("1 - Ataca----!??... opcao do jogador interrompida-\n");
-                    imprimir("Por algum motivo aquela figura comeca a rir... segundos depois o pescoco da figura vira para que o olhar dela encontre o seu, voce {nome} esta paralisado de medo e esta monstruosidade te ataca.\n");
+                    
+                    // --- MUDANÇA AQUI: Inserindo o nome na descrição do Boss ---
+                    char texto_final_boss[500];
+                    sprintf(texto_final_boss, "Por algum motivo aquela figura comeca a rir... segundos depois o pescoco da figura vira para que o olhar dela encontre o seu, voce, %s, esta paralisado de medo e esta monstruosidade te ataca.\n", nome_jogador);
+                    imprimir(texto_final_boss);
+                    
                     sangramento = 1;
-                    //func_combate fazer essa bomba retornar uma vitoria = 1 ou 0
-                    // os ifs verificam se o jogador venceu ou nao o combate
+                    
+                    vitoria = func_combate("Aberracao Ancia", 40, 10);
+
                     if (vitoria == 0){
                         imprimir("=====FINAL RUIM=====\n");
                         imprimir("voce e comido ainda vivo por esta criatura e tem uma morte horrivel e grotesca.\n");
-                        imprimir("Eu sei que voce vai voltar");
+                        imprimir("Eu sei que voce vai voltar\n");
                     }
                     if (vitoria == 1){
                         imprimir("=====FINAL BOM=====\n");
                         imprimir("Apos a luta, voce sai correndo para fora daquele templo sabendo que oque voce ja havia encontrado era muito mais  do que o suficiente para pagar sua divida! assim, voltando para o seu barquinho e fugindo daquela ilha.\n");
-                        imprimir("Voce consegue pagar toda sua divida e viver uma vida de luxo pelos proximos anos sem se preocupar em trabalhar de novo!");
+                        imprimir("Voce consegue pagar toda sua divida e viver uma vida de luxo pelos proximos anos sem se preocupar em trabalhar de novo!\n");
                     }
                 }
             }
