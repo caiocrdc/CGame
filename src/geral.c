@@ -124,11 +124,14 @@ static void desenhar_menu(const char *opcoes[], int quantidade, int selecionada)
     putchar('\n');
     for (int indice = 0; indice < quantidade; indice++) {
         if (indice == selecionada) {
-            mudar_cor(15);
-            printf(">> %s <<\n", opcoes[indice]);
+            mudar_cor(14);
+            printf("  > %d. %s", indice + 1, opcoes[indice]);
         } else {
-            printf("\033[37m   %s\033[0m\n", opcoes[indice]);
+            mudar_cor(15);
+            printf("    %d. %s", indice + 1, opcoes[indice]);
         }
+        mudar_cor(0);
+        putchar('\n');
     }
     fflush(stdout);
 }
@@ -148,7 +151,7 @@ int selecionar_opcao(int quantidade, const char *opcoes[]) {
                 printf("Opcao invalida! Digite um numero entre 1 e %d: ", quantidade);
             }
         } while (opcao < 1 || opcao > quantidade);
-        limpar_terminal();
+        putchar('\n');
         mudar_cor(14);
         return opcao;
     }
@@ -174,7 +177,7 @@ int selecionar_opcao(int quantidade, const char *opcoes[]) {
 
     fputs("\033[?25h", stdout);
     fflush(stdout);
-    limpar_terminal();
+    putchar('\n');
     mudar_cor(14);
     return selecionada + 1;
 }
